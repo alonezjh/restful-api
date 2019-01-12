@@ -1,7 +1,7 @@
 # restful-api
 RESTful API with NodeJS, TypeScript, Express, JWT.
 
-## Projet Setup
+## Project Setup
 
 ### Compiles for development
 
