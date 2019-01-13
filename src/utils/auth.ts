@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import * as passport from "passport";
+import { responseData } from './response';
 
 export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate('jwt', (err, user, info) => {
@@ -11,11 +12,3 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
     }
   })(req, res, next);
 };
-
-export const responseData = (statusCode: number, res: Response, code: number, msg: string, data?: any) =>
-  res.status(statusCode).json
-  ({
-    code,
-    msg,
-    data,
-  });

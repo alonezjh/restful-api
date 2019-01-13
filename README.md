@@ -1,18 +1,24 @@
 # restful-api
-RESTful API with NodeJS, TypeScript, Express, JWT.
+RESTful API with NodeJS, TypeScript, Express, JWT
 
 ## Project Setup
 
-### Compiles for development
+### Compiles for development with nodemon
 
 ``` bash
-yarn serve
+yarn start
 ```
 
 ### Lints files
 
 ``` bash
 yarn lint
+```
+
+### Compiles for development
+
+``` bash
+yarn serve
 ```
 
 ### Compiles for production
@@ -25,7 +31,7 @@ yarn bulid
 ### Generate apidoc
 
 ``` bash
-apidoc -i src/routes -o public/apiDocs
+yarn apidoc
 ```
 
 ### Git commit

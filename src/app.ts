@@ -1,5 +1,6 @@
 import * as express from 'express';
 import * as mongoose from 'mongoose';
+import * as passport from "passport";
 import * as dotenv from 'dotenv';
 import { Routes } from './routes/api';
 
@@ -21,6 +22,7 @@ class App {
     this.app.use(express.json());
     this.app.use('/public', express.static('public'));
     this.app.use(express.urlencoded({ extended: false }));
+    this.app.use(passport.initialize());
   }
 
   private mongodbInit = () => {

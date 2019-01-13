@@ -9,14 +9,14 @@ const isEmail = (val: string) => {
 
 const isPassword = (val: string) => val.length >= 6 && val.length <= 18 ? true : false;
 
-export const registerValidate = (data: any) => {
+export const userValidate = (data: any) => {
   const { email = '', password = '' } = data;
   let msg = '';
   if (_.isEmpty(password)) {
     msg = '密码不能为空';
   }
   if (!_.isEmpty(password) && !isPassword(password)) {
-    msg = '密码长度在6-18位之间';
+    msg = '密码长度应在6-18位之间';
   }
   if (_.isEmpty(email)) {
     msg = '邮箱不能为空';
