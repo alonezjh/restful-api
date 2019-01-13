@@ -14,7 +14,7 @@ export class Routes {
      * @apiVersion 1.0.0
      */
     app.route(`/api/test`).get((req: Request, res: Response) => {
-      res.status(200).send({
+      res.status(200).json({
         code: 0,
         msg: 'successful',
         data: '',
