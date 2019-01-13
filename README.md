@@ -25,7 +25,7 @@ yarn bulid
 ### Generate apidoc
 
 ``` bash
-apidoc -i src/routes -o public/apidoc
+apidoc -i src/routes -o public/apiDocs
 ```
 
 ### Git commit

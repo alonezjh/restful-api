@@ -24,6 +24,7 @@ class App {
   }
 
   private mongodbInit = () => {
+    mongoose.set('useCreateIndex', true);
     mongoose
     .connect(this.mongodbUrl, { useNewUrlParser: true })
     .then(() => console.log(`MongoDB connect to ${this.mongodbUrl} `))

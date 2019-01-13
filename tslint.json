@@ -9,6 +9,8 @@
     "ordered-imports": false,
     "array-type": false,
     "forin": false,
+    "curly": false,
+    "no-shadowed-variable": false,
     "quotemark": false,
     "arrow-parens": false,
     "variable-name": false
