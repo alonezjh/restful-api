@@ -7,7 +7,8 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
     if (user) {
       next();
     } else {
-      const msg = info.name === 'TokenExpiredError' ? 'token已过期' : 'token不存在';
+      const { name = ''} = info;
+      const msg = name === 'TokenExpiredError' ? 'token已过期' : 'token不存在';
       responseData(401, res, -1, msg);
     }
   })(req, res, next);

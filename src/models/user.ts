@@ -10,8 +10,13 @@ export const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  mobile: {
-    type: Number,
+  nickName: {
+    type: String,
+    default: '',
+  },
+  address: {
+    type: String,
+    default: '',
   },
   createTime: {
     type: Date,

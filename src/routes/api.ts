@@ -36,6 +36,8 @@ export class Routes {
      *
      * @apiSuccess {String} id 用户id
      * @apiSuccess {String} email 注册邮箱
+     * @apiSuccess {String} nickName 用户昵称
+     * @apiSuccess {String} address 用户地址
      *
      * @apiVersion 1.0.0
      */
@@ -61,19 +63,72 @@ export class Routes {
     app.route(`/api/user/login`).post(this.userController.login);
 
     /**
-     * @api {GET} /user/:userId 获取用户信息
+     * @api {GET} /users 用户列表
+     * @apiDescription 获取用户列表
+     * @apiSampleRequest /api/users
+     * @apiGroup User
+     * @apiPermission none
+     *
+     * @apiHeader {String} Authorization （必填）token验证参数
+     *
+     * @apiSuccess {Array} data 用户列表
+     *
+     * @apiVersion 1.0.0
+     */
+    app.route(`/api/users`).get(verifyToken, this.userController.getUsers);
+
+    /**
+     * @api {GET} /user/:userId 用户信息
      * @apiDescription 根据id获取用户信息
      * @apiSampleRequest /api/user/:userId
      * @apiGroup User
      * @apiPermission none
      *
-     * @apiHeader {String} Authorization token验证参数
+     * @apiHeader {String} Authorization （必填）token验证参数
+     *
      * @apiSuccess {String} id 用户id
      * @apiSuccess {String} email 用户邮箱
+     * @apiSuccess {String} nickName 用户昵称
+     * @apiSuccess {String} address 用户地址
      *
      * @apiVersion 1.0.0
      */
     app.route(`/api/user/:userId`).get(verifyToken, this.userController.getUserById);
+
+    /**
+     * @api {PUT} /user/:userId 更新用户
+     * @apiDescription 根据id更新用户信息
+     * @apiSampleRequest /api/user/:userId
+     * @apiGroup User
+     * @apiPermission none
+     *
+     * @apiHeader {String} Authorization （必填）token验证参数
+     *
+     * @apiParam {String} nickName 用户昵称
+     *
+     * @apiSuccess {String} id 用户id
+     * @apiSuccess {String} email 用户邮箱
+     * @apiSuccess {String} nickName 用户昵称
+     * @apiSuccess {String} address 用户地址
+     *
+     * @apiVersion 1.0.0
+     */
+    app.route(`/api/user/:userId`).put(verifyToken, this.userController.updateUserById);
+
+    /**
+     * @api {DELETE} /user/:userId 删除用户
+     * @apiDescription 根据id删除用户
+     * @apiSampleRequest /api/user/:userId
+     * @apiGroup User
+     * @apiPermission none
+     *
+     * @apiHeader {String} Authorization （必填）token验证参数
+     *
+     * @apiParam {String} id 用户id
+     *
+     * @apiVersion 1.0.0
+     */
+    app.route(`/api/user/:userId`).delete(verifyToken, this.userController.deleteUserById);
 
     app.use(`*`, (req: Request, res: Response) => responseData(404, res, -1, '无效的请求'));
   }

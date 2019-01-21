@@ -24,7 +24,7 @@ export class UserController {
           responseData(400, res, -1, validate);
           return false;
         }
-        const userInfo: any = new User({ email, password });
+        const userInfo: any = new User(req.body);
         bcrypt.genSalt(10, (err, salt) => {
           if (err) throw err;
           bcrypt.hash(userInfo.password, salt, (err, hash) => {
@@ -33,8 +33,8 @@ export class UserController {
             userInfo
             .save()
             .then(user => {
-              const { _id: id, email} = user;
-              responseData(200, res, 0, '注册成功', { id, email});
+              const { _id, email, nickName, mobile} = user;
+              responseData(200, res, 0, '注册成功', { _id, email, nickName, mobile});
             })
             .catch(err => console.error(err));
           });
@@ -64,7 +64,7 @@ export class UserController {
           if (isMatch) {
             const payload = { id: user._id };
             const secretOrKey = process.env.SECRET_KEY;
-            const expiresIn = 60 * 60 * 24 * 7;
+            const expiresIn = 60;
             jwt.sign(payload, secretOrKey, { expiresIn }, (err, token) => {
               if (err) throw err;
               responseData(200, res, 0, `登录成功`,
@@ -83,18 +83,56 @@ export class UserController {
     })
     .catch( err => {
       console.log(`login failed => ${err}`);
+      responseData(400, res, -1, '登录失败');
     });
   }
 
   public getUserById = (req: Request, res: Response) => {
-    User.findById(req.params.userId, (err, user) => {
+    User.findById( req.params.userId, (err, user) => {
       if (err) {
         responseData(400, res, -1, '用户不存在');
       } else {
-        const { _id: id = '', email = '' } = user as any;
-        const data = { id, email };
+        const { _id = '', email = '', nickName = '', createTime = '' } = user as any;
+        const data = { _id, email, nickName, createTime };
         responseData(200, res, 0, '获取用户信息成功', data);
       }
     });
+  }
+
+  public updateUserById = (req: Request, res: Response) => {
+    const { userId: _id } = req.params;
+    const { nickName = '', mobile = '' } = req.body;
+    const newUser = {} as any;
+    if (nickName !== '') {
+      newUser.nickName = nickName;
+    }
+    if (mobile !== '') {
+      newUser.mobile = mobile;
+    }
+    User.findByIdAndUpdate( { _id }, newUser, { new: true })
+    .then(users => responseData(200, res, 0, '更新用户信息成功', users))
+    .catch(err => responseData(400, res, -1, '更新用户信息失败', { errMsg: err.message }));
+  }
+
+  public deleteUserById = (req: Request, res: Response) => {
+    const { userId: _id = '' } = req.params;
+    User.deleteOne({ _id })
+    .then(err => {
+      const { n = 0, ok = 0 } = err;
+      if ( n === 1 && ok === 1 ) {
+        responseData(200, res, 0, '删除用户成功');
+      } else if ( n === 0 && ok === 1 ) {
+        responseData(400, res, -1, '该用户已被删除');
+      } else {
+        responseData(400, res, -1, '该用户不存在');
+      }
+    })
+    .catch(err => responseData(400, res, -1, '删除用户失败', { errMsg: err.message }));
+  }
+
+  public getUsers = (req: Request, res: Response) => {
+    User.find({}, { password: 0, __v: 0 })
+    .then(users => responseData(200, res, 0, '获取用户列表成功', users))
+    .catch(err => responseData(400, res, -1, '获取用户列表失败', { errMsg: err.message }));
   }
 }
