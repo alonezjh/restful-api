@@ -43,8 +43,8 @@ export class UserController {
             userInfo
             .save()
             .then(user => {
-              const { _id, email, nickName, mobile} = user;
-              responseData(200, res, 0, '注册成功', { _id, email, nickName, mobile});
+              const { _id, email, nickName = '', avatar = '', mobile = '', address = ''} = user;
+              responseData(200, res, 0, '注册成功', { _id, email, nickName, avatar, mobile, address });
             })
             .catch(err => console.error(err));
           });

@@ -14,6 +14,10 @@ export const UserSchema = new Schema({
     type: String,
     default: '',
   },
+  avatar: {
+    type: String,
+    default: '',
+  },
   address: {
     type: String,
     default: '',

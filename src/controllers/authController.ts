@@ -17,6 +17,7 @@ export class AuthController {
     };
     const code = svgCaptcha.create(option);
     const { session = '' } = req as any;
+    console.log(code.text.toLowerCase());
     session.captcha = code.text.toLowerCase();
     responseData(200, res, 0, '验证码获取成功', { captcha: code.data });
   }

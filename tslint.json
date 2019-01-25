@@ -14,6 +14,7 @@
     "quotemark": false,
     "arrow-parens": false,
     "no-string-literal": false,
+    "object-literal-shorthand": false,
     "variable-name": false
   },
   "linterOptions": {
