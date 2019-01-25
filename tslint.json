@@ -13,6 +13,7 @@
     "no-shadowed-variable": false,
     "quotemark": false,
     "arrow-parens": false,
+    "no-string-literal": false,
     "variable-name": false
   },
   "linterOptions": {

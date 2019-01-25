@@ -1,16 +1,18 @@
-import { Request, Response, NextFunction } from 'express';
-import * as passport from "passport";
+import { Request, Response } from 'express';
+import * as passport from 'passport';
 import { UserController } from '../controllers/userController';
+import { AuthController } from '../controllers/AuthController';
 import { AuthMiddleware } from '../middlewares/authMiddleware';
 import { responseData, verifyToken } from '../utils';
 
 export class Routes {
 
   public userController: UserController = new UserController();
-  public auth: AuthMiddleware = new AuthMiddleware();
+  public authController: AuthController = new AuthController();
+  public authMiddleware: AuthMiddleware = new AuthMiddleware();
 
   constructor() {
-    this.auth.authenticate(passport);
+    this.authMiddleware.authenticate(passport);
   }
 
   public routes = (app): void => {
@@ -129,6 +131,19 @@ export class Routes {
      * @apiVersion 1.0.0
      */
     app.route(`/api/user/:userId`).delete(verifyToken, this.userController.deleteUserById);
+
+    /**
+     * @api {GET} /auth 获取验证码
+     * @apiDescription 获取验证码
+     * @apiSampleRequest /api/auth/captcha
+     * @apiGroup Auth
+     * @apiPermission none
+     *
+     * @apiSuccess {String} captcha 验证码svg
+     *
+     * @apiVersion 1.0.0
+     */
+    app.route(`/api/auth/captcha`).get(this.authController.getCaptcha);
 
     app.use(`*`, (req: Request, res: Response) => responseData(404, res, -1, '无效的请求'));
   }

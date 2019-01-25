@@ -13,7 +13,17 @@ const User = mongoose.model('User', UserSchema);
 export class UserController {
 
   public register = (req: Request, res: Response) => {
-    const { email = '', password = '' } = req.body;
+    const { email = '', captcha = '' } = req.body;
+    const { session = '' } = req as any;
+    const sessionCaptcha = session.captcha;
+    if (captcha === '') {
+      responseData(400, res, -1, `验证码不能为空`);
+      return;
+    }
+    if (captcha.toLowerCase() !== sessionCaptcha) {
+      responseData(400, res, -1, `验证码不正确`);
+      return;
+    }
     const validate = validation.userValidate(req.body);
     User.findOne({ email })
     .then(user => {

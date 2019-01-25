@@ -1,7 +1,7 @@
 {
   "name": "restful-api",
   "version": "1.0.0",
-  "description": "RESTful API with NodeJS, TypeScript, Express, JWT",
+  "description": "RESTful API with NodeJS, TypeScript, Express, MongoDB, JWT",
   "title": "RESTful API",
   "url" : "http://localhost:3333/api",
   "forceLanguage":"zh-cn",
