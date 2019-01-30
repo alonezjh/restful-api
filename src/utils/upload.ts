@@ -1,12 +1,6 @@
 import * as multer from 'multer';
-import * as path from 'path';
-import * as fs from 'fs';
-
-const checkFileExt = (ext, allow = true, rule= 'png|jpeg|jpg') => {
-  if (!ext) return false;
-  if (allow) return rule.includes(ext);
-  return !rule.includes(ext);
-};
+// import * as path from 'path';
+// import * as fs from 'fs';
 
 // const baseDir = `public/uploads/${new Date().getFullYear() + (new Date().getMonth() + 1) + new Date().getDate()}`;
 // fs.exists(baseDir, (exists) => {
@@ -29,6 +23,14 @@ const checkFileExt = (ext, allow = true, rule= 'png|jpeg|jpg') => {
 //   },
 // });
 
+// 检查图片后缀名
+const checkFileExt = (ext, allow = true, rule= 'png|jpeg|jpg') => {
+  if (!ext) return false;
+  if (allow) return rule.includes(ext);
+  return !rule.includes(ext);
+};
+
+// 个位数补0
 const appendZero = (num) => {
   if (num < 10) {
     return "0" + num;
@@ -37,6 +39,7 @@ const appendZero = (num) => {
   }
 };
 
+// 设置磁盘缓存
 const storage = multer.diskStorage({
   destination: `public/uploads/${new Date().getFullYear()}${appendZero(new Date().getMonth() + 1)}`,
   filename: (req, file, cb) => {
@@ -45,6 +48,7 @@ const storage = multer.diskStorage({
   },
 });
 
+// 文件过滤
 const fileFilter = (req, file, cb) => {
   let ext = file.originalname.split('.');
   ext = ext[ext.length - 1];
@@ -58,8 +62,9 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+// 文件限制
 const limits = {
-  fileSize: 1024 * 1000 * 2,
+  fileSize: 1024 * 1000 * 2, // 限制文件大小为2M
 };
 
 export const upload = multer({ storage, fileFilter, limits }).single('img');
